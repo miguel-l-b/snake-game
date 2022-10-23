@@ -1,5 +1,10 @@
+import Console.Colors;
+import Console.ConsoleManager;
+import Views.Launcher;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        ConsoleManager.println(Colors.GREEN, "started");
+        new Launcher();
     }
 }
