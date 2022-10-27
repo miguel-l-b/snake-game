@@ -4,21 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Grid {
-    private List<Player> players;
-    private List<Apple> apples;
+    protected List<Player> players;
+    protected List<Apple> apples;
 
-    public Grid() {
+    public final int limit;
+
+    public Grid(int limit) throws Exception {
+        if(limit < 10 || limit > 30)
+            throw new Exception("the limit is too big");
         this.players = new ArrayList<Player>();
         this.apples = new ArrayList<Apple>();
+        this.limit = limit;
     }
 
-    private boolean isExistPlayerInPosition(int x, int y) {
-        for(Player player : players)
+    public Grid(Grid grid) throws Exception {
+        if(grid == null)
+            throw new Exception("the grid is null");
+        
+        this.limit = grid.limit;
+        this.players = grid.players;
+        this.apples = grid.apples;
+    }
+
+    protected boolean isExistPlayerInPosition(int x, int y) {
+        for(Coordinate player : players)
             if(x == player.getX() && y == player.getY()) return true;
         
         return false;
     }
-    private Apple getAppleInPosition(int x, int y) {
+    protected boolean isExistAppleInPosition(int x, int y) {
+        for(Coordinate apple : apples)
+            if(x == apple.getX() && y == apple.getY()) return true;
+        
+        return false;
+    }
+    protected Apple getAppleInPosition(int x, int y) {
         for(Apple apple : apples)
             if(x == apple.getX() && y == apple.getY()) return apple;
 
@@ -28,9 +48,9 @@ public class Grid {
     public boolean isAteAnApple(int indexPlayer) {
         Player p = players.get(indexPlayer);
         Apple apple = getAppleInPosition(p.getX(), p.getY());
-        if(apple != null)
-        {
+        if(apple != null) {
             players.get(indexPlayer).addPoint(apple.getValue());
+            removeApple(apple);
             return true;
         }
         return false;
@@ -39,36 +59,5 @@ public class Grid {
     public void addPlayer(Player player) { this.players.add(player); }
     public void addApple(Apple apple) { this.apples.add(apple); }
     public void removePlayer(Player player) { this.players.remove(player); }
-    public void removeAllApple() { this.apples.removeAll(apples); }
-
-    public boolean movingVertical(int y, int index) {
-        Player p = players.get(index);
-        if(y > 0 && this.isExistPlayerInPosition(p.getX(), p.getY()+1))
-        {
-            players.get(0).setPosition(p.getX(), p.getY()+1);
-            return true;
-        }
-        if(y < 0 && this.isExistPlayerInPosition(p.getX(), p.getY()-1))
-        {
-            players.get(0).setPosition(p.getX(), p.getY()-1);
-            return true;
-        }
-
-        return false;
-    }
-    public boolean movingHorizontal(int x, int index) {
-        Player p = players.get(index);
-        if(x > 0 && this.isExistPlayerInPosition(p.getX()+1, p.getY()))
-        {
-            players.get(0).setPosition(p.getX()+1, p.getY());
-            return true;
-        }
-        if(x < 0 && this.isExistPlayerInPosition(p.getX()-1, p.getY()))
-        {
-            players.get(0).setPosition(p.getX()-1, p.getY());
-            return true;
-        }
-
-        return false;
-    }
+    public void removeApple(Apple apple) { this.apples.remove(apple); }
 }
