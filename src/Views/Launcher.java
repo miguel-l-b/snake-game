@@ -3,8 +3,6 @@ package Views;
 import javax.swing.*;
 
 import Console.ConsoleManager;
-import game.Player;
-
 import java.awt.event.ActionEvent;
 
 import utils.Window;
@@ -18,7 +16,7 @@ public class Launcher extends Window {
 
     public Launcher() {  
         super("Jogo da Cobra", "main");
-        super.setSize(270, 260);
+        super.setSize(270, 235);
         super.centralize();
         super.start();
         super.closeProgramOnClose();
