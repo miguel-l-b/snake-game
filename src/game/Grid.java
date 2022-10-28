@@ -1,6 +1,7 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Grid {
@@ -19,7 +20,7 @@ public class Grid {
 
     public Grid(Grid grid) throws Exception {
         if(grid == null)
-            throw new Exception("the grid is null");
+            throw new Exception("The grid is null");
         
         this.limit = grid.limit;
         this.players = grid.players;
@@ -60,4 +61,35 @@ public class Grid {
     public void addApple(Apple apple) { this.apples.add(apple); }
     public void removePlayer(Player player) { this.players.remove(player); }
     public void removeApple(Apple apple) { this.apples.remove(apple); }
+
+    @Override 
+    public boolean equals (Object obj) {
+
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(this.getClass() != obj.getClass()) return false;
+    
+        Grid g = (Grid)obj;
+        if(this.players != g.players) return false;
+        if(this.apples != g.apples) return false;
+    
+        return true;
+        }
+    @Override   
+    public int hashCode() {
+        int hash = 2;
+        for (Apple apple : apples) {
+            hash = 7 * hash + apple.hashCode();
+        }
+
+        for (Player player : players) {
+            hash = 17 * hash + player.hashCode();
+        }
+        if(hash<0) hash =- hash;
+        return hash;
+    }
+    @Override
+    public String toString() {
+        return "player: " + players.toString() + " apples: "+ apples.toString();
+    }
 }

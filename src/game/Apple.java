@@ -1,5 +1,7 @@
 package game;
 
+import java.net.CookieHandler;
+
 public class Apple extends Coordinate {
     private int value;
     private final int minValue;
@@ -27,4 +29,30 @@ public class Apple extends Coordinate {
 
     public int getValue() 
     { return this.value; }
+
+    @Override
+    public boolean equals (Object obj) {
+
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(this.getClass() != obj.getClass()) return false;
+
+        Apple a = (Apple)obj;
+        if(this.handleValue != a.handleValue) return false;
+        if(this.minValue != a.minValue) return false;
+        if(this.timeout != a.timeout) return false;
+        if(this.value != a.value) return false;
+
+
+        return super.equals((Coordinate)obj);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 2;
+        hash = 3 * hash + super.hashCode();
+
+        if(hash<0) hash =- hash;
+        return hash;
+    } 
 }
