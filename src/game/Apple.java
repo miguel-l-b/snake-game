@@ -1,7 +1,5 @@
 package game;
 
-import java.net.CookieHandler;
-
 public class Apple extends Coordinate {
     private int value;
     private final int minValue;
