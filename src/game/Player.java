@@ -1,11 +1,12 @@
 package game;
+import java.awt.Color;
 
 public class Player extends Coordinate {
     public final String username;
-    public final String color;
+    public final Color color;
     private int points;
 
-    public Player(String username, String color, int x, int y) throws Exception {
+    public Player(String username, Color color, int x, int y) throws Exception {
         super(x, y);
         if(username.length() > 10 || username.contains(" "))
             throw new Exception("invalid username");
@@ -37,4 +38,16 @@ public class Player extends Coordinate {
     }
     
     public int getPoints() {return this.points; }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(this == obj) return true;
+        if(obj.getClass() != this.getClass()) return false;
+        if(this.username != ((Player)obj).username) return false;
+        if(this.points != ((Player)obj).points) return false;
+        if(this.color != ((Player)obj).color) return false;
+
+        return true;
+    }
 }

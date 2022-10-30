@@ -16,22 +16,25 @@ public abstract class Coordinate {
     public int getY() {return this.y; }
 
     public double distanceTo(Coordinate b)
-    {
-        return Math.sqrt(Math.pow(this.x + b.x, 2) + Math.pow(this.y + b.y, 2));
+    { return Math.sqrt(Math.pow(this.x + b.x, 2) + Math.pow(this.y + b.y, 2)); }
+
+    @Override
+    public String toString() {
+        return String.format("{ X: %d, Y: %d }", this.x, this.y);
     }
 
     @Override
     public boolean equals (Object obj) {
 
-    if(this == obj) return true;
-    if(obj == null) return false;
-    if(this.getClass() != obj.getClass()) return false;
-
-    Coordinate c = (Coordinate)obj;
-    if(this.x != c.x) return false;
-    if(this.y != c.y) return false;
-
-    return true;
+        if(this == obj) return true;
+        if(obj == null) return false;
+        if(this.getClass() != obj.getClass()) return false;
+        
+        Coordinate c = (Coordinate)obj;
+        if(this.x != c.x) return false;
+        if(this.y != c.y) return false;
+        
+        return true;
     }
 
     @Override

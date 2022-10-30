@@ -31,6 +31,17 @@ public class Apple extends Coordinate {
     { return this.value; }
 
     @Override
+    public String toString() {
+        return String.format(
+            "value: %d, minValue: %d, timeout: %d, Coordinate: %s",
+            this.value,
+            this.minValue,
+            this.timeout,
+            super.toString()
+        );
+    }
+
+    @Override
     public boolean equals (Object obj) {
 
         if(this == obj) return true;
