@@ -1,7 +1,6 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Grid {
@@ -61,8 +60,54 @@ public class Grid {
     public void addApple(Apple apple) { this.apples.add(apple); }
     public void removePlayer(Player player) { this.players.remove(player); }
     public void removeApple(Apple apple) { this.apples.remove(apple); }
+    public Player getFistPlayer() { return players.get(0); }
+    public Apple getAppleCloseTo(Player player) {
+        double distance = 0;
+        Apple a = null;
+        for (Apple apple : apples) {
+            double current = apple.distanceTo(player);
+            if(distance == 0 || distance < current)
+            {
+                distance = current;
+                a = apple;
+            }
+        }
 
-    @Override 
+        return a;
+    }
+    public Player getPlayerCloseTo(Apple apple) {
+        double distance = 0;
+        Player p = null;
+        for (Player player : players) {
+            double current = player.distanceTo(apple);
+            if(distance == 0 || distance < current)
+            {
+                distance = current;
+                p = player;
+            }
+        }
+
+        return p;
+    }
+    
+    public Player[] getAllPlayers() {
+        Player[] result = new Player[players.size()];
+
+        for (int i = 0; i < players.size(); i++)
+            result[i] = players.get(i);
+
+        return result;
+    }
+    public Apple[] getAllApples() {
+        Apple[] result = new Apple[apples.size()];
+        
+        for (int i = 0; i < apples.size(); i++)
+            result[i] = apples.get(i);
+
+        return result;
+    }
+
+    @Override
     public boolean equals (Object obj) {
 
         if(this == obj) return true;
@@ -90,6 +135,6 @@ public class Grid {
     }
     @Override
     public String toString() {
-        return "player: " + players.toString() + " apples: "+ apples.toString();
+        return "players: " + players.toString() + " apples: "+ apples.toString();
     }
 }
