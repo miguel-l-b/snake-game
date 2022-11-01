@@ -1,13 +1,18 @@
 package game;
 
-public class Apple extends Coordinate {
+import com.google.gson.Gson;
+import utils.GenerateJson;
+
+public class Apple extends Coordinate implements GenerateJson {
+    public final String ID;
     private int value;
-    private final int minValue;
-    private final long timeout;
+    public final int minValue;
+    public final long timeout;
     private Thread handleValue;
 
-    public Apple(int x, int y, int value, int minValue, long timeout) {
+    public Apple(String ID, int x, int y, int value, int minValue, long timeout) {
         super(x, y);
+        this.ID = ID;
         this.value = value;
         this.minValue = minValue;
         this.timeout = timeout;
@@ -18,11 +23,11 @@ public class Apple extends Coordinate {
     }
 
     private void handleValue() {
-        try { this.handleValue.sleep(this.timeout); } catch(InterruptedException e) {}
-
-        if(value == minValue) this.handleValue.interrupt();
-        
-        value--;
+        while(value > minValue) {
+            try { this.handleValue.sleep(this.timeout); } catch(InterruptedException e) {}
+            
+            value--;
+        }
     }
 
     public int getValue() 
@@ -30,14 +35,13 @@ public class Apple extends Coordinate {
 
     @Override
     public String toString() {
-        return String.format(
-            "value: %d, minValue: %d, timeout: %d, Coordinate: %s",
-            this.value,
-            this.minValue,
-            this.timeout,
-            super.toString()
-        );
+        return String.format("value: %d, minValue: %d, timeout: %d, coordinate: { %s }", this.value, this.minValue, this.timeout, super.toString());
     }
+
+    @Override
+    public String toJson() {
+        return new Gson().toJson(this);
+    } 
 
     @Override
     public boolean equals (Object obj) {
@@ -59,9 +63,13 @@ public class Apple extends Coordinate {
     @Override
     public int hashCode() {
         int hash = 2;
-        hash = 3 * hash + super.hashCode();
+        hash = 3  * hash + super.hashCode();
+        hash = 7  * hash + Integer.valueOf(this.value).hashCode();
+        hash = 13 * hash + Integer.valueOf(this.minValue).hashCode();
+        hash = 17 * hash + Long.valueOf(this.timeout).hashCode();
 
         if(hash<0) hash =- hash;
         return hash;
-    } 
+    }
+
 }
