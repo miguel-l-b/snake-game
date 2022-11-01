@@ -1,24 +1,26 @@
 package game;
 import java.awt.Color;
 
-public class Player extends Coordinate {
+import com.google.gson.Gson;
+
+import utils.GenerateJson;
+
+public class Player extends Coordinate implements GenerateJson {
+    public final String ID;
     public final String username;
     public final Color color;
     private int points;
 
-    public Player(String username, Color color, int x, int y) throws Exception {
+    public Player(String ID, String username, Color color, int x, int y) throws Exception {
         super(x, y);
-        if(username.length() > 10 || username.contains(" "))
-            throw new Exception("invalid username");
+        if(username.length() > 10 || username.contains(" ")) throw new Exception("invalid username");
+        if(ID == null || ID.length() < 7) throw new Exception("invalid ID");
+        if(color == null) throw new Exception("invalid color");
+        this.ID = ID;
         this.username = username;
         this.color = color;
         this.points = 0;
     }
-
-    protected void setPoints(int points)
-    { this.points = points; }
-    protected void addPoint(int points)
-    { this.points += points; }
 
     protected boolean movingHorizontal(int x) {
         if(x == 0) return false;
@@ -37,7 +39,19 @@ public class Player extends Coordinate {
         return true;
     }
     
-    public int getPoints() {return this.points; }
+    public int getPoints() { return points; }
+    protected void setPoints(int value) { this.points = value; }
+    protected void addPoint(int point) { this.points += point; }
+
+    @Override
+    public String toJson() {
+        return new Gson().toJson(this);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("username: %s, color: %s, points: %d, coordinate: { %s }", this.username, this.color.toString(), this.points, super.toString());
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -48,6 +62,18 @@ public class Player extends Coordinate {
         if(this.points != ((Player)obj).points) return false;
         if(this.color != ((Player)obj).color) return false;
 
-        return true;
+        return super.equals((Coordinate)obj);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 2;
+        hash = 3  * hash + Integer.valueOf(this.points).hashCode();
+        hash = 7  * hash + this.color.hashCode();
+        hash = 13 * hash + this.username.hashCode();
+
+        if(hash < 0) hash *= -1;
+
+        return hash;
     }
 }
