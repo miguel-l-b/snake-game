@@ -1,7 +1,9 @@
 package game;
 
+import com.google.gson.Gson;
+import utils.GenerateJson;
 
-public abstract class Coordinate {
+public class Coordinate implements GenerateJson {
     private int x, y;
 
     public Coordinate(int x, int y) {
@@ -20,7 +22,12 @@ public abstract class Coordinate {
 
     @Override
     public String toString() {
-        return String.format("{ X: %d, Y: %d }", this.x, this.y);
+        return String.format("x: %d, y: %d", this.x, this.y);
+    }
+
+    @Override
+    public String toJson() {
+        return new Gson().toJson(this);
     }
 
     @Override
