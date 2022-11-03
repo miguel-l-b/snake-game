@@ -80,7 +80,7 @@ public class Grid {
     protected boolean isPlayerInPosition(Coordinate coordinates) 
     { return isExistPlayerInPosition(coordinates.getX(), coordinates.getY()); }
 
-    protected void addPlayer(Player value) 
+    public void addPlayer(Player value) 
     { this.players.add(value); }
     protected void addPlayers(Player[] values) 
     { for (Player player : values) this.players.add(player); }
@@ -116,7 +116,7 @@ public class Grid {
         throw new Exception("error in find apple by id");
     }
 
-    protected void addApple(Apple value) { this.apples.add(value); }
+    public void addApple(Apple value) { this.apples.add(value); }
     protected void addApples(Apple[] values) { for (Apple apple : values) this.apples.add(apple); }
     public void removeApple(Apple apple) { this.apples.remove(apple); }
     public Apple getAppleCloseTo(Player player) {

@@ -12,13 +12,13 @@ public class GameController extends Grid {
     public boolean movingVertical(int y, int indexPlayer) {
         Player p = super.players.get(indexPlayer);
         if(y > 0 && p.getY()+1 == super.limit) return false;
-        if(y < 0 && p.getY()-1 == 0) return false;
+        if(y < 0 && p.getY()-1 == -1) return false;
 
         if(
             (y > 0 && !super.isExistPlayerInPosition(p.getX(), p.getY()+1)) ||
             y < 0 && !super.isExistPlayerInPosition(p.getX(), p.getY()-1)
         ) {
-            super.players.get(0).movingVertical(indexPlayer);
+            super.players.get(0).movingVertical(y);
             handleCollision(indexPlayer);
             return true;
         }
@@ -28,7 +28,7 @@ public class GameController extends Grid {
     public boolean movingHorizontal(int x, int indexPlayer) {
         Player p = super.players.get(indexPlayer);
         if(x > 0 && p.getX()+1 == super.limit) return false;
-        if(x < 0 && p.getX()-1 == 0) return false;
+        if(x < 0 && p.getX()-1 == -1) return false;
 
         if(
             (x > 0 && !super.isExistPlayerInPosition(p.getX()+1, p.getY())) ||
