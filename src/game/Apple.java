@@ -33,6 +33,15 @@ public class Apple extends Coordinate implements GenerateJson {
     public int getValue() 
     { return this.value; }
 
+    public int getLevel() {
+        if(value+(minValue/0.5) > minValue)
+            return 2;
+        if(value > minValue)
+            return 1;
+
+        return 0;
+    }
+
     @Override
     public String toString() {
         return String.format("value: %d, minValue: %d, timeout: %d, coordinate: { %s }", this.value, this.minValue, this.timeout, super.toString());
