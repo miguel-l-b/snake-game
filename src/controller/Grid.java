@@ -1,4 +1,4 @@
-package game;
+package controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,7 @@ public class Grid {
 
     public final int limit;
 
-    public Grid(int limit) throws Exception {
-        if(limit < 10 || limit > 30)
-            throw new Exception("the limit is too big");
+    public Grid(int limit) {
         this.players = new ArrayList<Player>();
         this.apples = new ArrayList<Apple>();
         this.limit = limit;
@@ -49,13 +47,16 @@ public class Grid {
         return result;
     }
     public Player getFistPlayer() { return players.get(0); }
-    public Player getPlayerByID(String id) throws Exception 
-    { return players.get(indexOfPlayerByID(id)); }
-    public int indexOfPlayerByID(String id) throws Exception {
+    public Player getPlayerByID(String id)
+    { 
+        int i = indexOfPlayerByID(id);
+        return i < 0 ? null : players.get(i); 
+    }
+    public int indexOfPlayerByID(String id) {
         for (int i = 0; i < this.players.size(); i++)
             if(this.players.get(i).ID == id) return i;
 
-        throw new Exception("error in find player by id");
+        return -1;
     }
     public Player getPlayerCloseTo(Apple apple) {
         double distance = 0;
@@ -71,20 +72,26 @@ public class Grid {
 
         return p;
     }
-    protected boolean isExistPlayerInPosition(int x, int y) {
+    public boolean isPlayerInPosition(int x, int y) {
         for(Coordinate player : players)
             if(x == player.getX() && y == player.getY()) return true;
         
         return false;
     }
-    protected boolean isPlayerInPosition(Coordinate coordinates) 
-    { return isExistPlayerInPosition(coordinates.getX(), coordinates.getY()); }
+    public boolean isPlayerInPosition(Coordinate coordinates) 
+    { return isPlayerInPosition(coordinates.getX(), coordinates.getY()); }
 
-    public void addPlayer(Player value) 
-    { this.players.add(value); }
-    protected void addPlayers(Player[] values) 
+    public void addPlayer(Player value) throws Exception
+    { 
+        if(isPlayerInPosition(value))
+            throw new Exception("Coordinate already exists");
+        if(getPlayerByID(value.ID) != null)
+            throw new Exception("Player ID already exists");
+        this.players.add(value);
+    }
+    public void addPlayers(Player[] values) 
     { for (Player player : values) this.players.add(player); }
-    protected void removePlayerByID(String id) throws Exception 
+    public void removePlayerByID(String id) throws Exception 
     { this.players.remove(getPlayerByID(id)); }
 
     public Apple[] getApples() {
@@ -95,21 +102,21 @@ public class Grid {
 
         return result;
     }
-    protected boolean isExistAppleInPosition(int x, int y) 
+    public boolean isAppleInPosition(int x, int y) 
     { return getAppleInPosition(x, y) == null ? false : true; }
-    protected boolean isExistAppleInPosition(Coordinate coordinates) 
-    { return isExistPlayerInPosition(coordinates.getX(), coordinates.getY()); }
-    protected Apple getAppleInPosition(int x, int y) {
+    public boolean isAppleInPosition(Coordinate coordinates) 
+    { return isAppleInPosition(coordinates.getX(), coordinates.getY()); }
+    public Apple getAppleInPosition(int x, int y) {
         for(Apple apple : apples)
             if(x == apple.getX() && y == apple.getY()) return apple;
 
         return null;
     }
-    protected Apple getAppleInPosition(Coordinate coordinates)
+    public Apple getAppleInPosition(Coordinate coordinates)
     { return getAppleInPosition(coordinates.getX(), coordinates.getY()); }
-    protected Apple getAppleByID(String id) throws Exception
+    public Apple getAppleByID(String id) throws Exception
     { return this.apples.get(indexOfAppleByID(id)); }
-    protected int indexOfAppleByID(String id) throws Exception {
+    public int indexOfAppleByID(String id) throws Exception {
         for (int i = 0; i < this.apples.size(); i++)
             if(this.apples.get(i).ID == id) return i;
 
@@ -117,7 +124,7 @@ public class Grid {
     }
 
     public void addApple(Apple value) { this.apples.add(value); }
-    protected void addApples(Apple[] values) { for (Apple apple : values) this.apples.add(apple); }
+    public void addApples(Apple[] values) { for (Apple apple : values) this.apples.add(apple); }
     public void removeApple(Apple apple) { this.apples.remove(apple); }
     public Apple getAppleCloseTo(Player player) {
         double distance = 0;
@@ -133,6 +140,8 @@ public class Grid {
 
         return a;
     }
+
+
 
     @Override
     public boolean equals (Object obj) {
@@ -163,6 +172,6 @@ public class Grid {
 
     @Override
     public String toString() {
-        return String.format("players: %s, apples: %s", this.players.toString(), this.apples.toString());
+        return String.format("players: %s, apples: %s, limit: %d", this.players.toString(), this.apples.toString(), this.limit);
     }
 }

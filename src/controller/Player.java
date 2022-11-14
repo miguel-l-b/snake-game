@@ -1,15 +1,12 @@
-package game;
+package controller;
+
 import java.awt.Color;
 
-import com.google.gson.Gson;
-
-import utils.GenerateJson;
-
-public class Player extends Coordinate implements GenerateJson {
+public class Player extends Coordinate {
     public final String ID;
     public final String username;
     public final Color color;
-    private int points;
+    private int points;Co-authored-by: JOAO VICTOR VEDRONI PEREIRA DA SILVA <cc22313@m.unicamp.br>
 
     public Player(String ID, String username, Color color, int x, int y) throws Exception {
         super(x, y);
@@ -42,11 +39,6 @@ public class Player extends Coordinate implements GenerateJson {
     public int getPoints() { return points; }
     protected void setPoints(int value) { this.points = value; }
     protected void addPoint(int point) { this.points += point; }
-
-    @Override
-    public String toJson() {
-        return new Gson().toJson(this);
-    }
 
     @Override
     public String toString() {
