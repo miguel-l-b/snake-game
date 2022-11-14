@@ -6,7 +6,7 @@ public class Player extends Coordinate {
     public final String ID;
     public final String username;
     public final Color color;
-    private int points;Co-authored-by: JOAO VICTOR VEDRONI PEREIRA DA SILVA <cc22313@m.unicamp.br>
+    private int points;
 
     public Player(String ID, String username, Color color, int x, int y) throws Exception {
         super(x, y);
