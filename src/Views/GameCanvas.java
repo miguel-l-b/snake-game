@@ -9,7 +9,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-import game.*;
+import controller.*;
 import utils.Colors;
 
 public class GameCanvas extends Canvas implements Runnable, KeyListener {
