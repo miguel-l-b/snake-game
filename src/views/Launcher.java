@@ -1,12 +1,11 @@
-package Views;
+package views;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.net.Socket;
 
-import Console.ConsoleManager;
 import controller.LogIn;
-import socket.MessageController;
+import utils.MessageController;
 import utils.Window;
 
 public class Launcher extends Window {
@@ -46,11 +45,10 @@ public class Launcher extends Window {
         try {
             MessageController server = new MessageController(new Socket(ipAndPort[0], port));
             server.sendObject(new LogIn(txt_username.getText()));
-            Object msg = server.getObject();
-            if(msg instanceof controller.Game)
-                ConsoleManager.println("response: <"+((controller.Game)msg).getClass()+"> "+((controller.Game)msg).toString());
-            else
-                ConsoleManager.println("response"+msg);
-        } catch (Exception e1) { e1.printStackTrace(); }
+
+            WindowsManager.handleGame(server);
+
+            this.setVisible(false);
+        } catch (Exception e1) { WindowsManager.handleMessage("Erro ao conectar ao servidor"); }
     }
 }

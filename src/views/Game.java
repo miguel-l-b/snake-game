@@ -1,13 +1,14 @@
-package Views;
+package views;
 
+import utils.MessageController;
 import utils.Window;
 
 public class Game extends Window {
-    public Game() {
+    public Game(MessageController socket) {
         super("Jogo da Cobra");
         GameCanvas gc;
         try {
-            gc = new GameCanvas();
+            gc = new GameCanvas(socket);
         } catch (Exception e) {
             gc = null;
             e.printStackTrace();

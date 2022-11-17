@@ -1,11 +1,10 @@
-package socket;
+package utils;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import Console.ConsoleManager;
 import controller.Communicate;
 
 public class MessageController {
@@ -21,10 +20,12 @@ public class MessageController {
         this.in = new ObjectInputStream(this.socket.getInputStream());
     }
 
-     public Object getObject() {
+    public String getID() { return socket.getRemoteSocketAddress().toString(); }
+
+    public Object getObject() {
         try {
             return in.readObject();
-        } catch(Exception err) { return null; }
+        } catch(Exception err) { err.printStackTrace(); return null; }
     }
 
     public boolean sendObject(Communicate message) {
@@ -42,9 +43,6 @@ public class MessageController {
             in.close();
             out.close();
             socket.close();
-        } catch(IOException err) { 
-            throw new Exception("Error when closing: \n ->"+
-                err.getMessage());
-        }
+        } catch(IOException err) { throw new Exception("Error when closing: \n ->"+err.getMessage()); }
     }
 }

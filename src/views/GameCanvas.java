@@ -1,50 +1,50 @@
-package Views;
+package views;
 
 import java.awt.Canvas;
 import java.lang.Thread;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
 import controller.*;
 import utils.Colors;
+import utils.MessageController;
 
 public class GameCanvas extends Canvas implements Runnable, KeyListener {
-    public GameController game;
+    private GameController game;
     private char directions = ' ';
     private boolean running = false;
     private Thread handleFrames;
     
-    public GameCanvas() throws Exception {
-        game = new GameController(20);
+    public GameCanvas(MessageController server) throws Exception {
+        game = new GameController(20, server);
         this.setPreferredSize(new Dimension(401,540));
         this.addKeyListener(this);
         handleFrames = new Thread(this);
     }
 
-    public void tick(){
-        switch(directions){
+    public void tick() {
+        switch(directions) {
             case 'r':
-               game.movingHorizontal(+1, 0);
+               game.movingHorizontalPlayer(+1);
             break;
             case 'l':
-                game.movingHorizontal(-1, 0);
+                game.movingHorizontalPlayer(-1);
             break;
             case 'u':
-                game.movingVertical(-1, 0);
+                game.movingVerticalPlayer(-1);
             break;
             case 'd':
-                game.movingVertical(+1, 0);
+                game.movingVerticalPlayer(+1);
             break;
         }
 
         directions = ' ';
     }
 
-    public void render(){
+    public void render() {
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
             this.createBufferStrategy(3);
@@ -63,8 +63,6 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
             var p = players[i];
             g.setColor(p.color);
             g.fillRect(p.getX()*20, p.getY()*20, 20, 20);
-            g.setColor(Color.white);
-            g.drawString(""+p.getPoints(), p.getX()*20+5, p.getY()*20+15);
 
             g.setColor(p.color);
             g.drawString(p.username+":  "+p.getPoints(), 10, 420+(20*i));
@@ -118,8 +116,10 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
     public synchronized void stop() {
         running = false;
-        try { handleFrames.join(); } 
-        catch (InterruptedException e) { 
+        try { 
+            handleFrames.join();
+        }
+        catch (Exception e) { 
             System.err.println("error in stop()"); 
             System.exit(0); 
         }
@@ -157,8 +157,8 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) { }
 
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) { }
 }
