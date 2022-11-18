@@ -41,10 +41,16 @@ public class Grid {
     public Player[] getPlayers() {
         Player[] result = new Player[players.size()];
 
-        for (int i = 0; i < players.size(); i++)
+        for (int i = 0; i < this.players.size(); i++)
             result[i] = players.get(i);
 
         return result;
+    }
+    public int indexOfPlayerByID(String id) {
+        for (int i = 0; i < this.players.size(); i++)
+            if(this.players.get(i).ID.equals(id)) return i;
+        
+        return -1;
     }
     public Player getFistPlayer() { return players.get(0); }
     public Player getPlayerByID(String id)
@@ -52,12 +58,10 @@ public class Grid {
         int i = indexOfPlayerByID(id);
         return i < 0 ? null : players.get(i); 
     }
-    public int indexOfPlayerByID(String id) {
-        for (int i = 0; i < this.players.size(); i++)
-            if(this.players.get(i).ID == id) return i;
 
-        return -1;
-    }
+    // ver se this.players.size() dá 1
+    //
+    
     public Player getPlayerCloseTo(Apple apple) {
         double distance = 0;
         Player p = null;
