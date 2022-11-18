@@ -130,13 +130,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
         while(running){
             tick();
             render();
-            try{
-                    Thread.sleep(1000/60);
-            }catch(InterruptedException e){
-                e.printStackTrace();
-            }
         }
-        
     }
 
     @Override
@@ -161,4 +155,8 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) { }
+
+    public void close() {
+        game.close();
+    }
 }
