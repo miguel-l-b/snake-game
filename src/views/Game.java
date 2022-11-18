@@ -3,12 +3,15 @@ package views;
 import utils.MessageController;
 import utils.Window;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 public class Game extends Window {
+    private GameCanvas gc;
     public Game(MessageController socket) {
         super("Jogo da Cobra");
-        GameCanvas gc;
         try {
-            gc = new GameCanvas(socket);
+            this.gc = new GameCanvas(socket);
         } catch (Exception e) {
             gc = null;
             e.printStackTrace();
@@ -18,11 +21,13 @@ public class Game extends Window {
         super.add(gc);
         pack();
         setSize(gc.getSize());
-        closeProgramOnClose();
+        this.addWindowListener((new WindowExit()));
         setResizable(false);
         centralize();
         setVisible(true);
 
         gc.start();
     }
+
+    protected class WindowExit extends WindowAdapter { public void windowClosing (WindowEvent e) { gc.close(); System.exit(0); } }
 }
