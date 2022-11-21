@@ -17,11 +17,13 @@ public class Launcher extends Window {
 
     public Launcher() {  
         super("Jogo da Cobra", "main");
-        super.setSize(270, 235);
+        super.setSize(285, 235);
         super.centralize();
         super.start();
         super.closeProgramOnClose();
         super.setResizable(false);
+        txt_server.setText("127.0.0.1:3030");
+        txt_username.setText("Miges");
 
         super.setLayout(null);
         super.add(lbl_server);

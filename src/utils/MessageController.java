@@ -24,7 +24,7 @@ public class MessageController {
 
     public Communicate getObject() {
         try { return (Communicate)in.readObject(); } 
-        catch(Exception err) { return null; }
+        catch(Exception err) { err.printStackTrace(); return null; }
     }
 
     public boolean sendObject(Communicate object) {
@@ -32,7 +32,7 @@ public class MessageController {
             out.writeObject(object);
             out.flush();
             return true;
-        } catch (Exception e) { return false; }
+        } catch (Exception e) { e.printStackTrace(); return false; }
     }
 
     public void close() throws Exception {

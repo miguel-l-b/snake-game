@@ -20,7 +20,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener {
     
     public GameCanvas(MessageController server) throws Exception {
         game = new GameController(20, server);
-        this.setPreferredSize(new Dimension(401,540));
+        this.setPreferredSize(new Dimension(416,550));
         this.addKeyListener(this);
         handleFrames = new Thread(this);
     }

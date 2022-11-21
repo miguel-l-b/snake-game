@@ -12,6 +12,7 @@ public class GameController extends Grid implements Runnable {
     { 
         super(20);
         Object gameData = server.getObject();
+        System.out.println(gameData);
         if(gameData instanceof Game)
         { 
             this.server = server;
