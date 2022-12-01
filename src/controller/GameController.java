@@ -49,7 +49,7 @@ public class GameController extends Grid implements Runnable {
             }
         
             else if(data instanceof Apple) {
-                try { 
+                try {
                     addApple((Apple)data); 
                     new Thread(
                         () -> { 
@@ -85,12 +85,15 @@ public class GameController extends Grid implements Runnable {
             
             else if(data instanceof Kick) {
                 if(((Kick)data).REASON == 4) {
-                    try { 
+                    try {
                         server.close();
                         WindowsManager.handleMessage("Servidor Caiu");
                         System.exit(0);
                     }
                     catch (Exception e) { criticalError("kick server"); }
+                }
+                else if(((Kick)data).REASON == 5) {
+                    WindowsManager.handleMessage("Ganhou"+whoWins());
                 }
                 if(((Kick)data).ID != null || !((Kick)data).ID.equals(IDPlayer)) {
                     try {
@@ -103,6 +106,21 @@ public class GameController extends Grid implements Runnable {
                 }
             }
         }
+    }
+
+    public String whoWins() {
+        int max = 0;
+        String username = "";
+        for(Player p : players)
+        {
+            if(max < p.getPoints())
+            {
+                max = p.getPoints();
+                username = p.username;
+            }
+        }
+
+        return username+" com: "+max;
     }
 
     public boolean movingVerticalPlayer(int y) {
