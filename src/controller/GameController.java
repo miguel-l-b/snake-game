@@ -93,7 +93,8 @@ public class GameController extends Grid implements Runnable {
                     catch (Exception e) { criticalError("kick server"); }
                 }
                 else if(((Kick)data).REASON == 5) {
-                    WindowsManager.handleMessage("Ganhou"+whoWins());
+                    WindowsManager.handleMessage("Ganhou "+whoWins());
+                    System.exit(0);
                 }
                 if(((Kick)data).ID != null || !((Kick)data).ID.equals(IDPlayer)) {
                     try {
